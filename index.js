@@ -1,24 +1,25 @@
-// Importa o módulo nativo do Node.js para ler entradas do terminal
-const console = require("console");
-const readline = require("readline");
+import chalk from 'chalk';
+import boxen from 'boxen';
+import figlet from 'figlet';
+import readline from 'readline';
 
-// Cria a interface de leitura ligando o teclado (input) à tela (output)
+
+
 const rl = readline.createInterface({
-  input: process.stdin, // stdin = entrada padrão (teclado)
-  output: process.stdout, // stdout = saída padrão (tela)
+  input: process.stdin, 
+  output: process.stdout, 
 });
 
-// Função auxiliar que transforma uma pergunta em Promise
-// Isso permite usar "await" e escrever o código de forma linear, sem callbacks aninhados
+
 function pergunta(texto) {
   return new Promise((resolve) => {
     rl.question(texto, (resposta) => {
-      resolve(resposta); // quando o usuário digita e pressiona Enter, resolve a Promise com o valor digitado
+      resolve(resposta); 
     });
   });
 }
 
-// Função principal — "async" porque usamos "await" dentro dela
+
 async function main() {
   
   // const nome = await pergunta("Nome: ");
@@ -194,17 +195,17 @@ async function main() {
   // let contador = 3;
 
   // while (contador >= 1) {
-  //   let resposta = await pergunta(" um numero entre 1 e 10 foi gerado,Digite um número: ");
+  //   let resposta = await pergunta("um numero entre 1 e 10 foi gerado,Digite um número: ");
      
   //   console.log("--------------------------");
   //   console.log("--------------------------");
   //   if (Number(resposta) === valor) {
-  //     console.log(" voce acertou o numero parabens");
+  //     console.log("🎉 voce acertou o numero parabens");
   //     console.log("--------------------------");
   //     console.log("--------------------------");
   //     break;
   //   }else{
-  //     console.log(" voce errou");
+  //     console.log("❌ voce errou");
   //     if (resposta > valor) {
   //       console.log(" o numero é menor");
   //     }else{
@@ -260,7 +261,49 @@ async function main() {
 
 // console.log(saudacao("Genidy", "noite"));
 
-console.log('ola,mundo tudo bom com vc estou iniciando meu treinamento com git e git hub')
+ const valor = Math.floor(Math.random() * 10) + 1;
+  let contador = 3;
+
+  console.log(chalk.cyan(figlet.textSync('Jogo do Numero!')));
+  console.log(boxen(chalk.yellow('Tente adivinhar o número entre 1 e 10!'), {
+    padding: 1,
+    borderColor: 'green',
+    borderStyle: 'round'
+  }));
+
+  while (contador >= 1) {
+    let resposta = await pergunta(chalk.magenta("👉 Um número entre 1 e 10 foi gerado, digite: "));
+     
+    console.log(chalk.gray("--------------------------"));
+    if (Number(resposta) === valor) {
+      console.log(boxen(chalk.green.bold("🎉 Você acertou o número, parabéns!"), {
+        padding: 1,
+        borderColor: 'green'
+      }));
+      console.log(chalk.gray("--------------------------"));
+      break;
+    } else {
+      console.log(chalk.red.bold("❌ Você errou"));
+      if (resposta > valor) {
+        console.log(chalk.blue("📉 O número é menor"));
+      } else {
+        console.log(chalk.blue("📈 O número é maior"));
+      }
+      console.log(chalk.gray("--------------------------"));
+      contador--;
+      if (contador === 0) {
+        console.log(boxen(chalk.red.bold(`💀 Você perdeu! O número era ${valor}`), {
+          padding: 1,
+          borderColor: 'red'
+        }));
+        break;
+      }
+      console.log(chalk.yellow(`⚠️ Você tem mais ${contador} chances`));
+      console.log(chalk.gray("--------------------------"));
+    }
+  }
+
+
 
 
 
@@ -867,8 +910,8 @@ console.log('ola,mundo tudo bom com vc estou iniciando meu treinamento com git e
 
 
 
-  rl.close(); // encerra a interface de leitura (libera o processo)
+  rl.close(); 
 }
 
-// Chama a função principal para executar o programa
+
 main();
